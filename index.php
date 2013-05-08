@@ -7,7 +7,7 @@ require_once("./inc/haitou/Haitou_parser.php");
 require_once("./inc/haitou/Helper.php");
 
 //define your token
-define("TOKEN", "stuzone");
+define("TOKEN", "******");
 $wechatObj = new wechatCallbackapiTest();
 
 //$wechatObj->valid();
