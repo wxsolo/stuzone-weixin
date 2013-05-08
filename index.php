@@ -2,23 +2,11 @@
 /**
 	* wechat php test
 	*/
-header("Content-type: text/html; charset=utf-8"); 
-require_once("./inc/haitou/Haitou_parser.php");
-require_once("./inc/haitou/Helper.php");
 
 //define your token
-define("TOKEN", "******");
+define("TOKEN", "stuzone");
 $wechatObj = new wechatCallbackapiTest();
-
-//$wechatObj->valid();
-
-$act = new Haitou_parser();
-					$result = $act->get_xjh();
-					echo $contentStr = get_utf8_content($result[1]->title, "ASCII");
-/*					 iconv("ASCII","UTF-8", $contentStr);
-					echo mb_detect_encoding("a");*/
-
-/*$wechatObj->transmitinfo("a", "text", $contentStr, 0);*/
+$wechatObj->valid();
 
 class wechatCallbackapiTest
 {
@@ -140,7 +128,6 @@ class wechatCallbackapiTest
 			$keyword = trim($object->Content);
 			$time = time();
 
-			$contentStr = "";
 			$textTpl = "<xml>
 							<ToUserName><![CDATA[%s]]></ToUserName>
 							<FromUserName><![CDATA[%s]]></FromUserName>
@@ -201,19 +188,7 @@ class wechatCallbackapiTest
 															$weatherinfo['weather3'],
 															$weatherinfo['wind3']
 														);
-			}else if($keyword == "宣讲" || $keyword == "xj")
-			{
-					$act = new Haitou_parser();
-					$result = $act->get_xjh();
-					$contentStr = $this->CP1251toUTF8($result[1]->title);
-
-
-/*					foreach ($act->get_xjh() as $key => $value) {
-						$contentStr .= $value->title;
-					}*/
-
-//					$contentStr = "后续应用正在努力开发中哦.~";
-			}
+				}
 			else
 			{
 						$contentStr = "后续应用正在努力开发中哦~.~";
@@ -238,9 +213,9 @@ class wechatCallbackapiTest
   * @author solo
   **/
 
-function transmitinfo($object, $msgtype, $content, $flag = 0)
+private function transmitinfo($object, $msgtype, $content, $flag = 0)
     {
-        $textTpl = "<xml version='1.0' encoding='UTF-8'>
+        $textTpl = "<xml>
 										<ToUserName><![CDATA[%s]]></ToUserName>
 										<FromUserName><![CDATA[%s]]></FromUserName>
 										<CreateTime>%s</CreateTime>
@@ -248,7 +223,7 @@ function transmitinfo($object, $msgtype, $content, $flag = 0)
 										<Content><![CDATA[%s]]></Content>
 										<FuncFlag>%d</FuncFlag>
 										</xml>";
-        echo $resultStr = sprintf($textTpl, "t", "q", time(), $msgtype, $content, $flag);
+        $resultStr = sprintf($textTpl, $object->FromUserName, $object->ToUserName, time(), $msgtype, $content, $flag);
         return $resultStr;
     }
 
